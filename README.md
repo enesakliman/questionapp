@@ -1,9 +1,12 @@
 # QUESTİON APP
+
+[luxury-gumdrop-949d00.netlify.app](https://luxury-gumdrop-949d00.netlify.app)
+
 * It is a Question app project created with React.
 * A project focused on Component, ContextApi and state management.
 
 ## Live Server 
-[luxury-gumdrop-949d00.netlify.app](https://luxury-gumdrop-949d00.netlify.app)
+
 
 ### App Features
 * It consists of 10 questions in total.
