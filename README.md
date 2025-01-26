@@ -1,4 +1,4 @@
-# QUESTİON APP
+# QUESTION APP
 
 [luxury-gumdrop-949d00.netlify.app](https://clinquant-otter-5cb222.netlify.app)
 
