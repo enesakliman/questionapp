@@ -24,15 +24,17 @@ function QuestionPages() {
          <div className="timer">Kalan Süre: {timeLeft} saniye</div> {/*time left */}
         <img src={question.media} alt="Soru görseli" /> {/*question image */}
         <p>{question.question}</p> {/*question */}
-        {showOptions && ( // options
-          <div className="options">
-            {question.options.map((option, index) => ( 
-              <button key={index} onClick={handleAnswer}>
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="options-container">
+          {showOptions && ( // options
+            <div className="options">
+              {question.options.map((option, index) => (
+                <button key={index} onClick={handleAnswer}>
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

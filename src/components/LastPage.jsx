@@ -8,9 +8,19 @@ function LastPage() {
     <div className="results">
       <div className="results-container">
         <h1>Test Sonuçlarınız</h1>
-        <h2>
-          Doğru sayısı: {correct} Yanlış sayısı: {wrong} Boş sayısı: {empty} {/* results */}
-        </h2>
+        <div className="results-info">
+          {/* results */}
+          <span>
+            Doğru sayısı: {correct}   
+          </span>
+          <span>
+            Yanlış sayısı: {wrong}
+          </span>
+          <span>
+            Boş sayısı: {empty}
+          </span>
+
+        </div>
         <div className="results-details">
           <div>
             <h3>Kullanıcı cevapları</h3>

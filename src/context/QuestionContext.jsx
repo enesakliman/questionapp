@@ -24,10 +24,54 @@ export const QuestionProvider = ({ children }) => {
     const [results, setResults] = useState([]) // last page results
 
 
-    // Start Function
 
     // Start Function and Reset
+    useEffect(() => {
+      if (!start || currentQuestionIndex >= questionList.length) {
+        // Eğer quiz başlamamışsa veya son soruya ulaşılmışsa, hiçbir işlem yapma
+        return;
+      }
+    
+      // Yeni soru için timer'ları sıfırla
+      setTimeLeft(30);
+      setShowOptions(false);
+    
+      // Şıkları 4 saniye sonra göster
+      const optionTimer = setTimeout(() => {
+        setShowOptions(true);
+      }, 4000);
+    
+      // Geri sayım timer'ı
+      const intervalId = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(intervalId);
+            clearTimeout(optionTimer);
+    
+            // Süre bittiğinde boş cevap ekle ve bir sonraki soruya geç
+            if (currentQuestionIndex < questionList.length - 1) {
+              setCurrentQuestionIndex((prev) => prev + 1);
+              setAnswer((prev) => [...prev, null]);
+            } else {
+              setIsQuizFinished(true);
+            }
+    
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    
+      // Timer'ları temizle
+      return () => {
+        clearTimeout(optionTimer);
+        clearInterval(intervalId);
+      };
+    }, [currentQuestionIndex, questionList.length, start]);
+    
+    // Start Function
     const handlestart = () => {
+      // Quiz'i başlat
       setStart(true);
       setCurrentQuestionIndex(0);
       setAnswer([]);
@@ -36,49 +80,8 @@ export const QuestionProvider = ({ children }) => {
       setWrong(0);
       setEmpty(0);
       setResults([]);
-      setTimeLeft(30);
-      setShowOptions(false);
-    }
-
-    // Questions, Options, Timer, Answer, Last Page
-    useEffect(() => {
-    if (currentQuestionIndex >= questionList.length) {
-      setIsQuizFinished(true) // last page
-      return
-    }
-
-    // Timer and Options
-    setTimeLeft(30)
-    setShowOptions(false)
-
-    // Options Timer  4 seconds
-    const optionTimer = setTimeout(() => {
-      setShowOptions(true)
-    }, 4000)
-
-    const intervalId = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(intervalId)
-          if (currentQuestionIndex < questionList.length - 1) {
-            setCurrentQuestionIndex((prev) => prev + 1) // next question page
-            setAnswer((prev) => [...prev, null]) // empty answer
-          } else {
-            setAnswer((prev) => [...prev, null]);
-            setIsQuizFinished(true) // last page
-          }
-          return 0 // timer
-        }
-        return prevTime - 1 // timer
-      })
-    }, 1000)
-
-    return () => {
-      // clear timers and intervals
-      clearTimeout(optionTimer)
-      clearInterval(intervalId)
-    }
-  }, [currentQuestionIndex, questionList.length, setCurrentQuestionIndex, setAnswer, setShowOptions]) // conection with states
+      setTimeLeft(30); // İlk soruya hazırlık
+    };
 
   const handleAnswer = (selectedOption) => {
     const selectedAnswer = selectedOption.target.innerText // selected answer
@@ -105,7 +108,7 @@ useEffect(() => {
       if (answer[index] === item.answer) {
         correctCount++;
         newResults.push("Doğru");
-      } else if (answer[index] === null || answer[index] === undefined) {
+      } else if (answer[index] === null) {
         emptyCount++;
         newResults.push("Boş");
       } else {

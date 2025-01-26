@@ -5,8 +5,6 @@
 * It is a Question app project created with React.
 * A project focused on Component, ContextApi and state management.
 
-## Live Server 
-
 
 ### App Features
 * It consists of 10 questions in total.
