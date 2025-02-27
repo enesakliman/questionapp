@@ -47,7 +47,7 @@ Open the browser and go to:
 
 ```bash
 http://localhost:5173  
-``
+```
 ## Screenshots
 
 ![Screenshots](./src/assets/startpage.png)
